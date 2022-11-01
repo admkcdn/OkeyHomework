@@ -11,6 +11,7 @@ namespace OkeyHomework.Entity
         public int id { get; set; }
         public string Name { get; set; }
         public List<string> GameStones { get; set; } = new List<string>();
-        public int Score { get; set; }
+        public List<string> Per { get; set; } = new List<string>();
+        public int Score { get; set; } = 0;
     }
 }

@@ -67,35 +67,57 @@ namespace OkeyHomework.Service
 
         public void CalculateScore()
         {
-            List<string> cacheStones = new List<string>();
-            bool perType = false;
-            for (int i = 0; i < gameTable.Players.Count; i++)
+
+
+            for (int i = 0; i < gameTable.Players.Count ; i++)
             {
-            loop: for (int j = 0; j < gameTable.Players[i].GameStones.Count; j++)
+                for (int j = 0; j < gameTable.Players[i].GameStones.Count-2; j++)
                 {
-                    if (cacheStones.Count == 0)
+                    if (gameTable.Players[i].GameStones[j] != "*")
                     {
-                        cacheStones.Add(gameTable.Players[i].GameStones[j]);
-                        goto loop;
-                    }
-                    if (cacheStones[cacheStones.Count-1] == "*" && gameTable.Players[i].GameStones[j]=="*")
-                    {
-
-                    }
-                    else
-                    {
-                        var cs = cacheStones[cacheStones.Count - 1].Split(" ");
-                        var ts = gameTable.Players[i].GameStones[j].Split(" ");
-                        if (cs[0] == ts[0])
+                        var c1 = gameTable.Players[i].GameStones[j].Split(" ");
+                        if (gameTable.Players[i].GameStones[j + 1] != "*")
                         {
-                            if (Convert.ToInt32(cs[1]) == Convert.ToInt32(ts[1])+1)
+                            var c2 = gameTable.Players[i].GameStones[j + 1].Split(" ");
+                            if (gameTable.Players[i].GameStones[j + 2] != "*")
                             {
-
+                                var c3 = gameTable.Players[i].GameStones[j + 2].Split(" ");
+                                if (c1[0] == c2[0] && c1[0] == c3[0])
+                                {
+                                    if (Convert.ToInt32(c1[1]) + 1 == Convert.ToInt32(c2[1]) && Convert.ToInt32(c2[1]) + 1 == Convert.ToInt32(c3[1]))
+                                    {
+                                        gameTable.Players[i].Per.Add(gameTable.Players[i].GameStones[j]);
+                                        gameTable.Players[i].Per.Add(gameTable.Players[i].GameStones[j + 1]);
+                                        gameTable.Players[i].Per.Add(gameTable.Players[i].GameStones[j + 2]);
+                                        int total = Convert.ToInt32(c1[1]) + Convert.ToInt32(c2[1]) + Convert.ToInt32(c3[1]);
+                                        gameTable.Players[i].Score += total;
+                                    }
+                                    else if (Convert.ToInt32(c1[1]) - 1 == Convert.ToInt32(c2[1]) && Convert.ToInt32(c2[1]) - 1 == Convert.ToInt32(c3[1]))
+                                    {
+                                        gameTable.Players[i].Per.Add(gameTable.Players[i].GameStones[j]);
+                                        gameTable.Players[i].Per.Add(gameTable.Players[i].GameStones[j + 1]);
+                                        gameTable.Players[i].Per.Add(gameTable.Players[i].GameStones[j + 2]);
+                                        int total = Convert.ToInt32(c1[1]) + Convert.ToInt32(c2[1]) + Convert.ToInt32(c3[1]);
+                                        gameTable.Players[i].Score += total;
+                                    }
+                                }
+                                else if (c1[0] != c2[0] && c2[0] != c3[0])
+                                {
+                                    if (Convert.ToInt32(c1[1]) == Convert.ToInt32(c2[1]) && Convert.ToInt32(c2[1]) == Convert.ToInt32(c3[1]))
+                                    {
+                                        gameTable.Players[i].Per.Add(gameTable.Players[i].GameStones[j]);
+                                        gameTable.Players[i].Per.Add(gameTable.Players[i].GameStones[j + 1]);
+                                        gameTable.Players[i].Per.Add(gameTable.Players[i].GameStones[j + 2]);
+                                        int total = Convert.ToInt32(c1[1]) + Convert.ToInt32(c2[1]) + Convert.ToInt32(c3[1]);
+                                        gameTable.Players[i].Score += total;
+                                    }
+                                }
                             }
                         }
                     }
-                    
                 }
+                Console.WriteLine(gameTable.Players[i].Score);
+                //Console.WriteLine(gameTable.Players[i].Per);
             }
         }
 
